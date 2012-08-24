@@ -27,9 +27,9 @@ Download the source:
 Create a client:
 ```csharp
 
-string url        = 'https://api.cloud.secureserver.net/v1/';
-string access_key = 'your-access-key';
-string secret_key = 'your-secret-key';
+string url        = "https://api.cloud.secureserver.net/v1/";
+string access_key = "your-access-key";
+string secret_key = "your-secret-key";
 
 Client gdapi = new Client(url, access_key, secret_key);
 
