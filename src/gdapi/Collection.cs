@@ -46,6 +46,15 @@ namespace gdapi
             return data.GetEnumerator();
         }
 
+        /// <summary>
+        /// Gets the list of resources associated with the collection.
+        /// </summary>
+        /// <returns>List of resources</returns>
+        public List<Resource> getResources()
+        {
+            return this.data;
+        }
+
     }
 
 }

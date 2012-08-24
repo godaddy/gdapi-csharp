@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2012 Go Daddy Operating Company, LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -57,15 +57,21 @@ namespace gdapi
         /// <param name="resourceType">Type of the Collection to return.</param>
         /// <param name="filters">Additional filters for the Collection.</param>
         /// <returns>Collection from API</returns>
-        public Collection getCollection(string resourceType, Dictionary<string,string> filters)
+        public Collection getCollection(string resourceType, CollectionFilter collectionFilter)
         {
             gdapi.WebRequest rRequestor = new gdapi.WebRequest(this);
             rRequestor.setType("GET");
             rRequestor.setQuery(resourceType);
 
-            foreach (KeyValuePair<string, string> kvp in filters)
+            if (collectionFilter != null)
             {
-                rRequestor.addParam(kvp);
+                foreach(string key in collectionFilter.getFilterItems().Keys)
+                {
+                    foreach (Dictionary<string, string> filter in collectionFilter.getFilterItems()[key])
+                    {
+                        rRequestor.addParam(new KeyValuePair<string, string>(key + "_" + filter["modifier"], filter["value"]));
+                    }
+                }                    
             }
 
             return getCollectionByRequest(rRequestor);

@@ -109,20 +109,22 @@ namespace gdapi
 
             string url = this.m_sUrl+this.m_sQuery;
 
-            HttpWebRequest req = System.Net.WebRequest.Create(url) as HttpWebRequest;
-            req.Credentials = this.m_cClient.getNetworkCredential();
-            req.Method = this.m_sType;
-
             if (this.m_sType == "GET" && this.m_lParams.Count > 0)
             {
                 url += "?";
 
                 foreach (KeyValuePair<string, string> kvp in this.m_lParams)
                 {
-                   url += kvp.Key + "=" + HttpUtility.UrlEncode( kvp.Value );
+                    url += kvp.Key + "=" + HttpUtility.UrlEncode(kvp.Value);
                 }
+
             }
-            else if (this.m_sType == "POST" || this.m_sType == "PUT")
+
+            HttpWebRequest req = System.Net.WebRequest.Create(url) as HttpWebRequest;
+            req.Credentials = this.m_cClient.getNetworkCredential();
+            req.Method = this.m_sType;
+
+            if (this.m_sType == "POST" || this.m_sType == "PUT")
             {
                 req.ContentType = "application/json";
                 req.Accept = "application/json";
@@ -138,7 +140,7 @@ namespace gdapi
                 dataStream.Close();
 
             }
-            
+
             string result = null;
 
             try

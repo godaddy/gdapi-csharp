@@ -43,7 +43,7 @@ Resources are pulled from the API by the Client.
 ```csharp
 
 Collection machines = gdapi.getCollection("virtualmachines");
-Console.WriteLine( "There are " + machines.data.Count + " machines:" );
+Console.WriteLine( "There are " + machines.getResources().Count + " machines:" );
 
 foreach ( Resource machine in machines )
 {
@@ -56,10 +56,9 @@ foreach ( Resource machine in machines )
 Filters allow you to search a collection for resources matching a set of conditions.
 ```csharp
 
-//COMING SOON
-CollectionFilter filters = new CollectionFilter("publicStartPort","gt","80");
-Collection networkrules = gdapi.getCollection("networkrules",filters);
-Console.WriteLine( "There are " + networkrules.data.Count + " networkrules with a publicStartPort greater than 80." );
+CollectionFilter filter = new CollectionFilter("publicStartPort","gt","80");
+Collection networkrules = gdapi.getCollection("networkrules",filter);
+Console.WriteLine( "There are " + networkrules.getResources().Count + " networkrules with a publicStartPort greater than 80." );
 
 ```
 
