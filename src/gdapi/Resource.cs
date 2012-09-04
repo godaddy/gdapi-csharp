@@ -30,78 +30,12 @@ namespace gdapi
     /// Represents a Resource from the API. This class is usually automatically populated by ResourceConverter from the returned JSON string.
     /// </summary>
     /// <seealso cref="ResourceConverter"/>
-    public class Resource
+    public abstract class Resource
     {
 
         private Dictionary<string, string> m_dProperties = new Dictionary<string, string>();
-        public Dictionary<string, string> actions { get; set; }
         public Dictionary<string, string> links { get; set; }
         public String type { get; set; }
-
-        /// <summary>
-        /// Constructs a new Resource
-        /// </summary>
-        public Resource()
-        {
-            this.actions = new Dictionary<string, string>();
-        }
-
-        /// <summary>
-        /// Gets the properties of the Resource.
-        /// </summary>
-        /// <returns>The properties from the Resource</returns>
-        public Dictionary<string, string> getProperties()
-        {
-            return this.m_dProperties;
-        }
-
-        /// <summary>
-        /// Creates a new Resource of a specific type. This constructor is usually used for creating a Resource to use for saving or deleting a Resource.
-        /// </summary>
-        /// <param name="type">Resource type</param>
-        public Resource(string type)
-        {
-            this.actions = new Dictionary<string, string>();
-            this.type = type;
-        }
-
-        /// <summary>
-        /// Sets the type of the Resource
-        /// </summary>
-        /// <param name="type">Resource type</param>
-        public void setType(string type)
-        {
-            this.type = type;
-        }
-
-        /// <summary>
-        /// Gets the type of the Resource
-        /// </summary>
-        /// <returns>Resource type</returns>
-        public String getType()
-        {
-            return this.type;
-        }
-
-        /// <summary>
-        /// Determines if a Resource can currently perform an action.
-        /// </summary>
-        /// <param name="name">Action to perform</param>
-        /// <returns>True if the action exists in the actions dictionary, false otherwise</returns>
-        public bool hasAction(string name)
-        {
-            return this.actions.ContainsKey(name);
-        }
-
-        /// <summary>
-        /// Gets the current action url if it exists.
-        /// </summary>
-        /// <param name="name">Action to perform</param>
-        /// <returns>The current action url or null if action not found</returns>
-        public string getAction(string name)
-        {
-            return hasAction(name) ? this.actions[name] : null;
-        }
 
         /// <summary>
         /// Determins if a Resource currently has a link.
@@ -121,6 +55,33 @@ namespace gdapi
         public string getLink(string name)
         {
             return hasLink(name) ? this.links[name] : null;
+        }
+
+        /// <summary>
+        /// Gets the properties of the Resource.
+        /// </summary>
+        /// <returns>The properties from the Resource</returns>
+        public Dictionary<string, string> getProperties()
+        {
+            return this.m_dProperties;
+        }
+
+        /// <summary>
+        /// Sets the type of the Resource
+        /// </summary>
+        /// <param name="type">Resource type</param>
+        public void setType(string type)
+        {
+            this.type = type;
+        }
+
+        /// <summary>
+        /// Gets the type of the Resource
+        /// </summary>
+        /// <returns>Resource type</returns>
+        public String getType()
+        {
+            return this.type;
         }
 
         /// <summary>
@@ -149,6 +110,7 @@ namespace gdapi
         {
             return m_dProperties[propertyName];
         }
+
 
     }
 

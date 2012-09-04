@@ -197,18 +197,8 @@ namespace gdapi
         /// <returns>The Collection representation of the JSON response or null if there was an error parsing the returned JSON.</returns>
         private Collection getCollectionByRequest(gdapi.WebRequest webRequest)
         {
-            Collection result = null;
-            try
-            {
-                string sResponse = webRequest.getResponse();
-                return (Collection)JsonConvert.DeserializeObject(sResponse, typeof(Collection), new ResourceConverter());
-            }
-            catch
-            {
-                result = null;
-            }
-            return result;
-
+             string sResponse = webRequest.getResponse();
+             return (Collection)JsonConvert.DeserializeObject(sResponse, typeof(Collection), new ResourceConverter());
         }
 
         /// <summary>

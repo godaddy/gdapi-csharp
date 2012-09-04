@@ -37,6 +37,7 @@ namespace gdapi
     {
 
         private static Type RESOURCE_FILTER = typeof(Dictionary<string, List<KeyValuePair<string, string>>>);
+        private static Type RESOURCE_DICTIONARY_DICTIONARY = typeof(Dictionary<string, Dictionary<string, string>>);
         private static Type RESOURCE_DICTIONARY = typeof(Dictionary<string, string>);
         private static Type RESOURCE_LIST = typeof(List<Resource>);
         private static Type RESOURCE_STRING = typeof(String);
@@ -59,7 +60,16 @@ namespace gdapi
             }
             else if (objectType == typeof(Resource))
             {
-                result = new Resource();
+
+                if (jObject["type"].ToString() == "schema")
+                {
+                    result = new SchemaResource();
+                    objectType = typeof(SchemaResource);
+                }
+                else
+                {
+                    result = new ItemResource();
+                }
 
                 foreach (JProperty property in jObject.Properties())
                 {
@@ -95,13 +105,25 @@ namespace gdapi
                         }
                         property.SetValue(result, dFilters, null);
                     }
+                    else if (propertyType == typeof(System.String[]))
+                    {
+                        property.SetValue(result, jObject.Property(property.Name).Value.ToObject<String[]>(), null);
+                    }
                     else if (propertyType == ResourceConverter.RESOURCE_STRING)
                     {
-                        property.SetValue(result, jObject.Property(property.Name).Value.ToString(),null);
+                        property.SetValue(result, jObject.Property(property.Name).Value.ToString(), null);
                     }
                     else if (propertyType == ResourceConverter.RESOURCE_DICTIONARY)
                     {
                         property.SetValue(result, jObject.Property(property.Name).Value.ToObject<Dictionary<string, string>>(), null);
+                    }
+                    else if(propertyType == typeof(Dictionary<string,Dictionary<string,JToken>>))
+                    {
+                        property.SetValue(result, jObject.Property(property.Name).Value.ToObject<Dictionary<string,Dictionary<string,JToken>>>(),null);
+                    }
+                    else if (propertyType == ResourceConverter.RESOURCE_DICTIONARY_DICTIONARY)
+                    {
+                        property.SetValue(result, jObject.Property(property.Name).Value.ToObject<Dictionary<string, Dictionary<string, string>>>(), null);
                     }
                     else if (propertyType == ResourceConverter.RESOURCE_LIST)
                     {
