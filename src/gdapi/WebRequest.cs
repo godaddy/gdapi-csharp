@@ -26,6 +26,9 @@ using System.Net;
 using System.IO;
 using System.Web;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 namespace gdapi
 {
     /// <summary>
@@ -152,9 +155,46 @@ namespace gdapi
             catch (WebException e)
             {
                 HttpWebResponse webResponse = (HttpWebResponse)e.Response;
+                string response = (new StreamReader(e.Response.GetResponseStream())).ReadToEnd();
+
+                JToken error = (JToken)JsonConvert.DeserializeObject(response);
+
                 if (webResponse.StatusCode == HttpStatusCode.NotFound)
                 {
-                    throw new NotFoundException();
+                    throw new NotFoundException(error["message"].ToString(), error["code"].ToString(), error["detail"].ToString());
+                }
+                else if (webResponse.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    System.Console.WriteLine(response);
+                    throw new BadRequestException(error["message"].ToString(), error["code"].ToString(), error["detail"].ToString());
+                }
+                else if (webResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new UnauthorizedException(error["message"].ToString(),error["code"].ToString(),error["detail"].ToString());
+                }
+                else if(webResponse.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    throw new ForbiddenException(error["message"].ToString(),error["code"].ToString(),error["detail"].ToString());
+                }
+                else if(webResponse.StatusCode == HttpStatusCode.MethodNotAllowed)
+                {
+                    throw new MethodNotAllowedException(error["message"].ToString(),error["code"].ToString(),error["detail"].ToString());
+                }
+                else if(webResponse.StatusCode == HttpStatusCode.NotAcceptable)
+                {
+                    throw new NotAcceptableException(error["message"].ToString(),error["code"].ToString(),error["detail"].ToString());
+                }
+                else if(webResponse.StatusCode == HttpStatusCode.Conflict)
+                {
+                    throw new ConflictException(error["message"].ToString(),error["code"].ToString(),error["detail"].ToString());
+                }
+                else if(webResponse.StatusCode == HttpStatusCode.InternalServerError)
+                {
+                    throw new InternalServerErrorException(error["message"].ToString(),error["code"].ToString(),error["detail"].ToString());
+                }
+                else if(webResponse.StatusCode == HttpStatusCode.ServiceUnavailable)
+                {
+                    throw new ServiceUnavailableException(error["message"].ToString(),error["code"].ToString(),error["detail"].ToString());
                 }
             }
             catch

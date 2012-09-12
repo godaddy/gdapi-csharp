@@ -38,9 +38,11 @@ namespace gdapi
 
         private static Type RESOURCE_FILTER = typeof(Dictionary<string, List<KeyValuePair<string, string>>>);
         private static Type RESOURCE_DICTIONARY_DICTIONARY = typeof(Dictionary<string, Dictionary<string, string>>);
+        private static Type RESOURCE_DICTIONARY_JTOKEN = typeof(Dictionary<string, Dictionary<string, JToken>>);
         private static Type RESOURCE_DICTIONARY = typeof(Dictionary<string, string>);
         private static Type RESOURCE_LIST = typeof(List<Resource>);
         private static Type RESOURCE_STRING = typeof(String);
+        private static Type RESOURCE_STRING_ARRAY = typeof(System.String[]);
 
         public override bool CanConvert(Type objectType)
         {
@@ -105,7 +107,7 @@ namespace gdapi
                         }
                         property.SetValue(result, dFilters, null);
                     }
-                    else if (propertyType == typeof(System.String[]))
+                    else if (propertyType == ResourceConverter.RESOURCE_STRING_ARRAY)
                     {
                         property.SetValue(result, jObject.Property(property.Name).Value.ToObject<String[]>(), null);
                     }
@@ -117,7 +119,7 @@ namespace gdapi
                     {
                         property.SetValue(result, jObject.Property(property.Name).Value.ToObject<Dictionary<string, string>>(), null);
                     }
-                    else if(propertyType == typeof(Dictionary<string,Dictionary<string,JToken>>))
+                    else if(propertyType == ResourceConverter.RESOURCE_DICTIONARY_JTOKEN)
                     {
                         property.SetValue(result, jObject.Property(property.Name).Value.ToObject<Dictionary<string,Dictionary<string,JToken>>>(),null);
                     }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2012 Go Daddy Operating Company, LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -23,12 +23,11 @@
 namespace gdapi
 {
     /// <summary>
-    /// Represents a request which is not found while attempting to
-    /// access the API.
+    /// Represents an UnauthorizedException returned from an API call.
     /// </summary>
-    public class NotFoundException : ApiException
+    public class UnauthorizedException : ApiException
     {
-        public NotFoundException(string message, string code, string detail)
+        public UnauthorizedException(string message, string code, string detail)
             : base(message, code, detail)
         {
 

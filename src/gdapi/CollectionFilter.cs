@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2012 Go Daddy Operating Company, LLC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a

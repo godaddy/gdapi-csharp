@@ -19,19 +19,43 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
+ 
+using System;
 
 namespace gdapi
 {
     /// <summary>
-    /// Represents a request which is not found while attempting to
-    /// access the API.
+    /// Represents an exception returned from the API
     /// </summary>
-    public class NotFoundException : ApiException
+    public class ApiException : ApplicationException
     {
-        public NotFoundException(string message, string code, string detail)
-            : base(message, code, detail)
-        {
 
+        private string m_sMessage = null;
+        private string m_sCode = null;
+        private string m_sDetail = null;
+
+        public ApiException(string message, string code, string detail) : base(message)
+        {
+            this.m_sMessage = message;
+            this.m_sCode = code;
+            this.m_sDetail = detail;
         }
+
+        public string getMessage()
+        {
+            return this.m_sMessage;
+        }
+
+        public string getCode()
+        {
+            return this.m_sCode;
+        }
+
+        public string getDetail()
+        {
+            return this.m_sDetail;
+        }
+
     }
+
 }

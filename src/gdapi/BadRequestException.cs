@@ -22,16 +22,18 @@
 
 namespace gdapi
 {
+
     /// <summary>
-    /// Represents a request which is not found while attempting to
-    /// access the API.
+    /// Represents a BadRequest Exception returned from an API call.
     /// </summary>
-    public class NotFoundException : ApiException
+    public class BadRequestException : ApiException
     {
-        public NotFoundException(string message, string code, string detail)
+
+        public BadRequestException(string message, string code, string detail)
             : base(message, code, detail)
         {
 
         }
+
     }
 }

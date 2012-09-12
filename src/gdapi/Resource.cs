@@ -67,6 +67,15 @@ namespace gdapi
         }
 
         /// <summary>
+        /// Sets the properties of the Resource.
+        /// </summary>
+        /// <param name="properties">Properties dictionary to update the internal properties of the resource with.</param>
+        public void setProperties(Dictionary<string, string> properties)
+        {
+            this.m_dProperties = properties;
+        }
+
+        /// <summary>
         /// Sets the type of the Resource
         /// </summary>
         /// <param name="type">Resource type</param>
@@ -109,6 +118,12 @@ namespace gdapi
         public string getProperty(string propertyName)
         {
             return m_dProperties[propertyName];
+        }
+
+
+        public bool hasProperty(string propertyName)
+        {
+            return m_dProperties.ContainsKey(propertyName);
         }
 
 

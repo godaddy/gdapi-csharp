@@ -106,7 +106,7 @@ namespace gdapi
             }
             else
             {
-                throw new NotFoundException();
+                return null;
             }
         }
 
@@ -128,7 +128,7 @@ namespace gdapi
             }
             else
             {
-                throw new NotFoundException();
+                return null;
             }
         }
 
@@ -183,11 +183,18 @@ namespace gdapi
         /// <returns>Saved Resource</returns>
         public Resource save(string collectionType, Resource resource)
         {
-            gdapi.WebRequest rRequestor = new gdapi.WebRequest(this);
-            rRequestor.setType("PUT");
-            rRequestor.setBody(JsonConvert.SerializeObject(resource.getProperties()));
-            rRequestor.setQuery(collectionType+"/"+resource.getProperty("id"));
-            return getResourceByRequest(rRequestor);
+            if (resource.hasProperty("id"))
+            {
+                gdapi.WebRequest rRequestor = new gdapi.WebRequest(this);
+                rRequestor.setType("PUT");
+                rRequestor.setBody(JsonConvert.SerializeObject(resource.getProperties()));
+                rRequestor.setQuery(collectionType + "/" + resource.getProperty("id"));
+                return getResourceByRequest(rRequestor);
+            }
+            else
+            {
+                return create(collectionType, resource);
+            }
         }
 
         /// <summary>
@@ -209,15 +216,8 @@ namespace gdapi
         private Resource getResourceByRequest(gdapi.WebRequest webRequest)
         {
             Resource result = null;
-            try
-            {
-                string sResponse = webRequest.getResponse();
-                result = (Resource)JsonConvert.DeserializeObject(sResponse, typeof(Resource), new ResourceConverter());
-            }
-            catch
-            {
-                result = null;
-            }
+            string sResponse = webRequest.getResponse();
+            result = (Resource)JsonConvert.DeserializeObject(sResponse, typeof(Resource), new ResourceConverter());
             return result;
         }
 
