@@ -139,11 +139,25 @@ namespace gdapi
         /// <returns>Resource result of the action.</returns>
         public Resource doAction(string actionUrl)
         {
+            return this.doAction(actionUrl, null);
+        }
+
+        /// <summary>
+        /// Performs an action from an action url and an input resource and returns the resulting Resource
+        /// </summary>
+        /// <param name="actionUrl">Action URL to perform.</param>
+        /// <param name="inputResource">Input Resource to use send with the action URL.</param>
+        /// <returns>Resource result of the action.</returns>
+        public Resource doAction(string actionUrl, Resource inputResource)
+        {
             gdapi.WebRequest rRequestor = new gdapi.WebRequest(this);
             rRequestor.setType("POST");
             rRequestor.setUrl(actionUrl);
-            string sResponse = rRequestor.getResponse();
-            return getResourceByRequest(rRequestor);        
+            if (inputResource != null)
+            {
+                rRequestor.setBody(JsonConvert.SerializeObject(inputResource.getProperties()));
+            }
+            return getResourceByRequest(rRequestor);
         }
 
         /// <summary>
