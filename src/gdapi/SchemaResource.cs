@@ -29,12 +29,13 @@ namespace gdapi
     public class SchemaResource : Resource
     {
 
-        public Dictionary<string, Dictionary<string, string>> actions { get; set; }
         public string[] collectionMethods { get; set; }
         public Dictionary<string, string> collectionActions { get; set; }
         public Dictionary<string, Dictionary<string,JToken>> collectionFilters { get; set;}
-        public Dictionary<string, Dictionary<string, JToken>> fields { get; set; }
-        public string[] methods { get; set; }
+
+        public Dictionary<string, Dictionary<string, string>> resourceActions { get; set; }
+        public Dictionary<string, Dictionary<string, JToken>> resourceFields { get; set; }
+        public string[] resourceMethods { get; set; }
 
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace gdapi
         /// </summary>
         public SchemaResource()
         {
-            this.actions = new Dictionary<string, Dictionary<string,string>>();
+            this.resourceActions = new Dictionary<string, Dictionary<string,string>>();
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace gdapi
         /// <returns>True if the action exists in the actions dictionary, false otherwise</returns>
         public bool hasAction(string name)
         {
-            return this.actions.ContainsKey(name);
+            return this.resourceActions.ContainsKey(name);
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace gdapi
         /// <returns>The current action url or null if action not found</returns>
         public Dictionary<string,string> getAction(string name)
         {
-            return hasAction(name) ? this.actions[name] : null;
+            return hasAction(name) ? this.resourceActions[name] : null;
         }
 
     }
