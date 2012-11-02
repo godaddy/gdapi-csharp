@@ -31,12 +31,18 @@ namespace gdapi
 
         public string[] collectionMethods { get; set; }
         public Dictionary<string, string> collectionActions { get; set; }
-        public Dictionary<string, Dictionary<string,JToken>> collectionFilters { get; set;}
 
+        public Dictionary<string, Dictionary<string,JToken>> collectionFilters { get; set;}
         public Dictionary<string, Dictionary<string, string>> resourceActions { get; set; }
         public Dictionary<string, Dictionary<string, JToken>> resourceFields { get; set; }
         public string[] resourceMethods { get; set; }
 
+        /*
+         *  Required to support legacy apis which use the old naming convention.
+         */
+        public Dictionary<string, Dictionary<string, string>> actions { get; set; }
+        public Dictionary<string, Dictionary<string, JToken>> fields { get; set; }
+        public string[] methods { get; set; }
 
         /// <summary>
         /// Constructs a new Resource
@@ -44,6 +50,7 @@ namespace gdapi
         public SchemaResource()
         {
             this.resourceActions = new Dictionary<string, Dictionary<string,string>>();
+            this.actions = new Dictionary<string, Dictionary<string, string>>();
         }
 
         /// <summary>
@@ -53,7 +60,7 @@ namespace gdapi
         /// <returns>True if the action exists in the actions dictionary, false otherwise</returns>
         public bool hasAction(string name)
         {
-            return this.resourceActions.ContainsKey(name);
+            return this.resourceActions.ContainsKey(name) || this.actions.ContainsKey(name);
         }
 
         /// <summary>
@@ -63,7 +70,7 @@ namespace gdapi
         /// <returns>The current action url or null if action not found</returns>
         public Dictionary<string,string> getAction(string name)
         {
-            return hasAction(name) ? this.resourceActions[name] : null;
+            return this.resourceActions.ContainsKey(name) ? this.resourceActions[name] : (this.actions.ContainsKey(name) ? this.actions[name] : null);
         }
 
     }
